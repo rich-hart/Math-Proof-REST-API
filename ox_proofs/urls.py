@@ -10,6 +10,7 @@ from api.views import (TheoremViewSet,
                     GroupViewSet,
                     TheoremHighlight,
                     DefinitionHighlight,
+                    StatementHighlight,
                     ArgumentViewSet,
                     StatementViewSet,
                     BookViewSet,)
@@ -38,10 +39,10 @@ def schema_view(request):
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url('^$', schema_view),
     url(r'^api/', include(router.urls)),
+    url(r'^statements/(?P<pk>[0-9]+)/highlight/$',StatementHighlight.as_view(),name='statement-highlight'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

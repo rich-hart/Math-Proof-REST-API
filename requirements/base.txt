@@ -3,3 +3,4 @@ djangorestframework==3.4.0
 django-rest-swagger==2.0.2
 psycopg2==2.6.2
 PyYaml==3.11
+latex2mathml==1.1.1

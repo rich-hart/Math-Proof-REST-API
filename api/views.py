@@ -4,7 +4,7 @@ from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import renderers
-
+from latex2mathml.converter import convert
 from .serializers import (
                           TheoremSerializer, 
                           AxiomSerializer, 
@@ -28,6 +28,15 @@ class StatementViewSet(viewsets.ModelViewSet):
     queryset = Statement.objects.all()
     serializer_class = StatementSerializer
 
+class StatementHighlight(generics.GenericAPIView):
+    queryset = Statement.objects.all()
+    renderer_classes = (renderers.TemplateHTMLRenderer,)
+    def get(self, request, *args, **kwargs):
+        statement = self.get_object()
+        mathml = convert(statement.name)
+        mathml = mathml.replace("<math>", '<math xmlns="http://www.w3.org/1998/Math/MathML">', 1)
+        return Response({'name': mathml },template_name="statement.html")
+
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
@@ -49,7 +58,7 @@ class DefinitionHighlight(generics.GenericAPIView):
 
     def get(self, request, *args, **kwargs):
         definition = self.get_object()
-        return Response({'name': definition.name },template_name="definition.html")
+        return Response({'name': convert("\\sqrt{a}") },template_name="definition.html")
 
 
 class DefinitionViewSet(viewsets.ModelViewSet):

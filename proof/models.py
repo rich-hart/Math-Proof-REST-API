@@ -38,6 +38,7 @@ class Statement(models.Model):
     citation = models.TextField(null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
 
+   
 class Argument(models.Model):
     statement = models.ForeignKey(Statement)
     user = models.ForeignKey(User, on_delete=models.CASCADE)

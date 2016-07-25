@@ -8,9 +8,11 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('axioms','definitions','theorems','citation','proofs','user')
 
 class StatementSerializer(serializers.HyperlinkedModelSerializer):
+    highlight = serializers.HyperlinkedIdentityField(view_name='statement-highlight', format='html')
+
     class Meta:
         model = Statement
-        fields = ('name', 'statement', 'label','citation','user')
+        fields = ('name', 'statement', 'label','citation','user','highlight')
 
 
 class ArgumentSerializer(serializers.HyperlinkedModelSerializer):
